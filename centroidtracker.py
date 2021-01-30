@@ -3,11 +3,9 @@ from collections import OrderedDict
 import numpy as np
 
 
-class CentroidTracker():
+class CentroidTracker:
 
-
-
-    def __init__(self, maxDisappeared=50):
+    def __init__(self, maxDisappeared=50,maxDistance=50):
         ###Assign ID to objects
         self.nextObjectID = 0  ###Assign ID to objects
 
@@ -20,6 +18,7 @@ class CentroidTracker():
 
         # The number of consecutive frames an object is allowed to be marked as “lost”
         self.maxDisappeared = maxDisappeared
+        self.maxDistance = maxDistance
 
     def register(self, centroid):
         # centroid is added to the objects
@@ -113,9 +112,18 @@ class CentroidTracker():
                 # val
                 if row in usedRows or col in usedCols:
                     continue
+
+                # if the distance between centroids is greater than
+                # the maximum distance, do not associate the two
+                # centroids to the same object
+                if D[row, col] > self.maxDistance:
+                    continue
+
+
                 # otherwise, grab the object ID for the current row,
                 # set its new centroid, and reset the disappeared
                 # counter
+
                 objectID = objectIDs[row]
                 self.objects[objectID] = inputCentroids[col]
                 self.disappeared[objectID] = 0
@@ -152,7 +160,3 @@ class CentroidTracker():
                     self.register(inputCentroids[col])
                 # return the set of trackable objects
         return self.objects
-
-
-
-

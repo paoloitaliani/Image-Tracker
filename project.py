@@ -60,6 +60,8 @@ while True:
             # compute the (x, y)-coordinates of the bounding box for
             # the object, then update the bounding box rectangles list
             box = detections[0, 0, i, 3:7] * np.array([W, H, W, H])
+
+            #contains the box
             rects.append(box.astype("int"))
 
             # draw a bounding box surrounding the object so we can
@@ -89,6 +91,7 @@ while True:
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
+
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
