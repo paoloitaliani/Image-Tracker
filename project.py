@@ -18,7 +18,7 @@ ct = CentroidTracker(maxDisappeared=50, maxDistance=50)
 print("[INFO] loading model...")
 
 # Opening the deep learning model
-net = cv2.dnn.readNetFromCaffe(prototxt, caffemodel)  # Opening the deep
+net = cv2.dnn.readNetFromCaffe(prototxt, caffemodel)
 
 # initialize the video stream and allow the camera sensor to warmup
 print("[INFO] starting video stream...")
