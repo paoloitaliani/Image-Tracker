@@ -10,7 +10,7 @@ prototxt = "/Users/Niolo/Documents/Github/Image-Tracker/models/deploy.prototxt.t
 
 caffemodel = "/Users/Niolo/Documents/Github/Image-Tracker/models/res10_300x300_ssd_iter_140000.caffemodel"
 
-confidence = 0.5
+confidence = 0.9
 
 ct = CentroidTracker(maxDisappeared=50, maxDistance=50)
 (H, W) = (None, None)
@@ -22,13 +22,14 @@ net = cv2.dnn.readNetFromCaffe(prototxt, caffemodel)  # Opening the deep
 
 # initialize the video stream and allow the camera sensor to warmup
 print("[INFO] starting video stream...")
-vs = VideoStream(src=0).start()
+#vs = VideoStream(src=0).start()
 
 # Allow 2 seconds for the camera to warm up
-time.sleep(2.0)
+#time.sleep(2.0)
 
 
 def main():
+    cap = cv2.VideoCapture('/Users/Niolo/Desktop/movie.mov')
     fps_start_time = datetime.datetime.now()
     fps = 0
     total_frames = 0
@@ -36,10 +37,11 @@ def main():
     while True:
 
         # read the next frame from the video stream and resize it
-        frame = vs.read()
+        frame=cap.read()
+        #frame = vs.read()
 
         # resize the frames to a fixed width (while preserving aspect ratio)
-        frame = imutils.resize(frame, width=400)
+        frame = imutils.resize(frame[1], width=400)
         total_frames = total_frames + 1
 
         # if the frame dimensions are None, grab them
@@ -112,4 +114,3 @@ def main():
 
 main()
 
-vs.stop()
