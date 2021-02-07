@@ -5,7 +5,7 @@ import numpy as np
 
 class CentroidTracker:
 
-    def __init__(self, maxDisappeared=50,maxDistance=50):
+    def __init__(self, maxDisappeared=5,maxDistance=50):
         ###Assign ID to objects
         self.nextObjectID = 0  ###Assign ID to objects
 

@@ -1,8 +1,8 @@
 from centroidtracker import CentroidTracker
 from imutils.video import VideoStream
+import time
 import numpy as np
 import imutils
-import time
 import cv2
 import datetime
 
@@ -15,21 +15,19 @@ confidence = 0.9
 ct = CentroidTracker(maxDisappeared=50, maxDistance=50)
 (H, W) = (None, None)
 
-print("[INFO] loading model...")
 
 # Opening the deep learning model
 net = cv2.dnn.readNetFromCaffe(prototxt, caffemodel)
 
 # initialize the video stream and allow the camera sensor to warmup
-print("[INFO] starting video stream...")
-#vs = VideoStream(src=0).start()
+vs = VideoStream(src=0).start()
 
 # Allow 2 seconds for the camera to warm up
-#time.sleep(2.0)
+time.sleep(2.0)
 
 
 def main():
-    cap = cv2.VideoCapture('/Users/Niolo/Desktop/movie.mov')
+    #cap = cv2.VideoCapture('/Users/Niolo/Desktop/demo1.mov')
     fps_start_time = datetime.datetime.now()
     fps = 0
     total_frames = 0
@@ -37,11 +35,11 @@ def main():
     while True:
 
         # read the next frame from the video stream and resize it
-        frame=cap.read()
-        #frame = vs.read()
+        #frame=cap.read()
+        frame = vs.read()
 
         # resize the frames to a fixed width (while preserving aspect ratio)
-        frame = imutils.resize(frame[1], width=400)
+        frame = imutils.resize(frame, width=400)
         total_frames = total_frames + 1
 
         # if the frame dimensions are None, grab them
@@ -101,7 +99,9 @@ def main():
 
         fps_text = "FPS: {:.2f}".format(fps)
 
-        cv2.putText(frame, fps_text, (5, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 0, 255), 1)
+        cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
 
         # show the output frame
         cv2.imshow("Application", frame)
